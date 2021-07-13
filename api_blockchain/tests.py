@@ -12,4 +12,8 @@ class TransferNormalTest(TestCase):
         c = Client()
         response = c.post('/transfer_normal/', data)
         result = response.json()
-        self.assertEqual(result.get('error'), "values")
+        self.assertEqual(result.get('src_account'), data.get('src_account'))
+
+
+
+

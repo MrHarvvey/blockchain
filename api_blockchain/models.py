@@ -10,7 +10,7 @@ class Operation(models.Model):
     amount = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __str__(self):
-        return self.des_account, self.src_account
+        return f'{self.des_account}  {self.src_account}'
 
 class Blockchain(models.Model):
     transaction = models.TextField(null=False)
