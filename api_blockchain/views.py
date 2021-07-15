@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import *
 import uuid
+from .utils.database_blockchain import BlockchainVerify
 
 
 @api_view(['POST'])
@@ -30,29 +31,25 @@ def transfer_normal(request):
             data_response = {
                 'error': "something went wrong"
             }
+        blockchain_ver = BlockchainVerify()
     return Response(data_response, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 def transaction_history(request):
     if request.method == 'POST':
-        input_json = request.json
+        input_json = request.data
+        num_trans = input_json.get("num_trans")
+        if num_trans:
+            all_transactions = Blockchain.objects.all()[:int(num_trans)]
+            data_response = {}
+            for ix, item in enumerate(all_transactions):
+                data_response[f'transaction_{ix + 1}'] = item.transaction
+        else:
+            all_transactions = Blockchain.objects.all()
+            data_response = {}
+            for ix, item in enumerate(all_transactions):
+                data_response[f'transaction_{ix + 1}'] = item.transaction
+        return Response(data_response, status=status.HTTP_200_OK)
 
-        data_response = {
-            "streets": input_json
-        }
-    return Response(data_response, status=status.HTTP_200_OK)
-
-# all_transactions = Operation.objects.all()
-
-
-# if len(all_transactions) == 10:
-#     record_str = ""
-#     for operation in all_transactions:
-#         record_str += f'{operation.id}:{operation.date_transaction}:{operation.src_account}:' \
-#                       f'{operation.des_account}:{operation.amount};'
-#         operation.delete()
-#
-#     new_record = Blockchain(transaction=record_str, prev_transaction=(hashlib.sha256
-#                                                                       (record_str.encode()).hexdigest()))
-#     new_record.save()
 
