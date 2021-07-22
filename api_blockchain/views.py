@@ -3,7 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import *
 import uuid
-from .utils.database_blockchain import BlockchainVerify
+
+
 
 
 @api_view(['POST'])
@@ -31,7 +32,6 @@ def transfer_normal(request):
             data_response = {
                 'error': "something went wrong"
             }
-        blockchain_ver = BlockchainVerify()
     return Response(data_response, status=status.HTTP_200_OK)
 
 

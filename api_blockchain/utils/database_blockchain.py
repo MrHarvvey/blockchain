@@ -3,13 +3,11 @@ import hashlib
 
 
 class BlockchainVerify:
-
     def __init__(self):
-        all_objects = Operation.objects.all().filter(hash_blockchain__isnull=True)
-        while len(all_objects) > 10:
-            operations = all_objects[:10]
+        all_objects = Operation.objects.all().filter(hash_blockchain__isnull=True).order_by('-date_transaction')[:10]
+        while all_objects > 10:
             record_str = ""
-            for operation in operations:
+            for operation in all_objects:
                 record_str += f'{operation.id}:{operation.date_transaction}:{operation.src_account}:' \
                               f'{operation.des_account}:{operation.amount};'
             previous_record = Blockchain.objects.last()
@@ -25,10 +23,8 @@ class BlockchainVerify:
                                         hash=my_hash)
             new_blockchain.save()
             if Blockchain.objects.filter(hash=my_hash).exists():
-                for operation in operations:
+                for operation in all_objects:
                     operation.hash_blockchain = my_hash
                     operation.save()
-            else:
-                raise ValueError
-            all_objects = Operation.objects.all().filter(added_blockchain=False)
 
+            all_objects = Operation.objects.all().filter(hash_blockchain__isnull=True).order_by('-date_transaction')[:10]
