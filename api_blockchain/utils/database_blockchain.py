@@ -5,7 +5,8 @@ import hashlib
 class BlockchainVerify:
     def __init__(self):
         all_objects = Operation.objects.all().filter(hash_blockchain__isnull=True).order_by('-date_transaction')[:10]
-        while all_objects > 10:
+        all_objects = all_objects[:10]
+        while len(all_objects) > 10:
             record_str = ""
             for operation in all_objects:
                 record_str += f'{operation.id}:{operation.date_transaction}:{operation.src_account}:' \

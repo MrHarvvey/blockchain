@@ -3,7 +3,9 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import *
 import uuid
+from api_blockchain.tasks import run_function
 
+run_function.delay()
 
 
 
