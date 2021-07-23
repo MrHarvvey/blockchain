@@ -4,6 +4,9 @@ from rest_framework import status
 from .models import *
 import uuid
 from api_blockchain.tasks import run_function
+from .utils.database_blockchain import BlockchainVerify
+
+
 
 run_function.delay()
 
@@ -34,6 +37,7 @@ def transfer_normal(request):
             data_response = {
                 'error': "something went wrong"
             }
+        #build_block = BlockchainVerify()
     return Response(data_response, status=status.HTTP_200_OK)
 
 
