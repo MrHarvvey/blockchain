@@ -37,7 +37,6 @@ def transfer_normal(request):
             data_response = {
                 'error': "something went wrong"
             }
-        #build_block = BlockchainVerify()
     return Response(data_response, status=status.HTTP_200_OK)
 
 

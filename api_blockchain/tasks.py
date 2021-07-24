@@ -5,8 +5,11 @@ import time
 
 @shared_task
 def run_function():
-    while True:
-        build_block = BlockchainVerify()
-        time.sleep(20)
-        return "baza zaktulizowana"
+    build_block = BlockchainVerify()
+    return "baza zaktulizowana"
+
+@shared_task
+def run_function_1():
+    build_block = BlockchainVerify()
+    return "baza w drugim watku zaktuliowana"
 
