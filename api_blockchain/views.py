@@ -4,12 +4,9 @@ from rest_framework import status
 from .models import *
 import uuid
 from api_blockchain.tasks import run_function
-from .utils.database_blockchain import BlockchainVerify
 
 
-
-run_function.delay()
-
+#run_function.apply_async()
 
 
 @api_view(['POST'])
